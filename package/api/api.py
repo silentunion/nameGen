@@ -18,11 +18,11 @@ class Letters(Resource):
         return items
 
 class Words(Resource):
-    def get(self):
-        items = basic.generate()
+    def get(self, template, num):
+        items = basic.generate(template, num)
         return items
 
 api.add_resource(Letters, '/letters')
-api.add_resource(Words, '/words')
+api.add_resource(Words, '/words/<string:template>/<int:num>')
 
 app.run(port=5000)

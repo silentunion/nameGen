@@ -1,9 +1,8 @@
 import random
-import json
 
 from ..api import db_request
 
-def generate():
+def generate(template, num):
     letters = db_request.get_letters()
 
     vowels, consonants = [], []
@@ -14,11 +13,11 @@ def generate():
         else:
             consonants.append(row['letter'])
 
-    template = 'cvcvcv'
+    template = template
     words = []
-    num_words = 10
+    num_words = num
 
-    for num in range(num_words):
+    for n in range(num_words):
         word = ''
         for letter in range(0, len(template)):
             let = template[letter]
@@ -28,5 +27,4 @@ def generate():
                 word += random.choice(consonants)
         words.append({'word': word})
     
-    words_json = json.dumps(words)
     return words
