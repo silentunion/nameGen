@@ -13,13 +13,17 @@ for row in letters:
         consonants.append(row['letter'])
 
 template = 'cvcvcv'
-word = ''
+words = []
+num_words = 10
 
-for letter in range(0, len(template)):
-    let = template[letter]
-    if let == 'v':
-        word += random.choice(vowels)
-    else:
-        word += random.choice(consonants)
+for num in range(num_words):
+    word = ''
+    for letter in range(0, len(template)):
+        let = template[letter]
+        if let == 'v':
+            word += random.choice(vowels)
+        else:
+            word += random.choice(consonants)
+    words.append(word)
 
-print(word)
+print(words)
