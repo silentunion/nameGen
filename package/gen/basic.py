@@ -2,22 +2,25 @@ import random
 
 from ..api import db_request
 
+
 def get_letters_from_db():
     letters = db_request.get_letters()
 
-    vowels, consonants = [], []
+    vowels, consonants, v_freq, c_freq = [], [], [], []
 
     for row in letters:
         if row['is_vowel']:
             vowels.append(row['letter'])
+            v_freq.append(float(row['frequency']))
         else:
             consonants.append(row['letter'])
+            c_freq.append(float(row['frequency']))
 
-    return vowels, consonants
+    return vowels, consonants, v_freq, c_freq
 
 
-def generate(template, num_words):
-    vowels, consonants = get_letters_from_db()
+def generate(template, num_words=5, is_weighted=False):
+    vowels, consonants, v_freq, c_freq = get_letters_from_db()
 
     template = template
     words = []
@@ -26,17 +29,23 @@ def generate(template, num_words):
         word = ''
         for letter in range(0, len(template)):
             let = template[letter]
-            if let == 'v':
-                word += random.choice(vowels)
+            if is_weighted:
+                if let == 'v':
+                    word += random.choices(vowels, weights=v_freq, k=1)[0]          
+                else:
+                    word += random.choices(consonants, weights=c_freq, k=1)[0]
             else:
-                word += random.choice(consonants)
+                if let == 'v':
+                    word += random.choice(vowels)
+                else:
+                    word += random.choice(consonants)
         words.append({'word': word})
     
     return words
 
 
-def completely_random(num_words):
-    vowels, consonants = get_letters_from_db()
+def completely_random(num_words, is_weighted=False):
+    vowels, consonants, v_freq, c_freq = get_letters_from_db()
 
     choices = ['v', 'c']
     words = []
@@ -51,10 +60,16 @@ def completely_random(num_words):
 
         for letter in range(0, len(template)):
             let = template[letter]
-            if let == 'v':
-                word += random.choice(vowels)
+            if is_weighted:
+                if let == 'v':
+                    word += random.choices(vowels, weights=v_freq, k=1)[0]          
+                else:
+                    word += random.choices(consonants, weights=c_freq, k=1)[0]
             else:
-                word += random.choice(consonants)
+                if let == 'v':
+                    word += random.choice(vowels)
+                else:
+                    word += random.choice(consonants)
         words.append({'word': word})
     
     return words
