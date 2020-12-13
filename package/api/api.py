@@ -19,22 +19,22 @@ class Letters(Resource):
 
 class WordsTemplate(Resource):
     def get(self, template, num, is_weighted=False):
-        items = basic.generate(template, num, is_weighted)
+        items = basic.generate(num, is_weighted, False, template)
         return items
 
 class WordsTemplateWeighted(Resource):
     def get(self, template, num, is_weighted=True):
-        items = basic.generate(template, num, is_weighted)
+        items = basic.generate(num, is_weighted, False, template)
         return items
 
 class RandomWords(Resource):
     def get(self, num, is_weighted=False):
-        items = basic.completely_random(num, is_weighted)
+        items = basic.generate(num, is_weighted)
         return items
 
 class RandomWordsWeighted(Resource):
     def get(self, num, is_weighted=True):
-        items = basic.completely_random(num, is_weighted)
+        items = basic.generate(num, is_weighted)
         return items
 
 class Nonestuff(Resource):
