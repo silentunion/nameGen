@@ -19,19 +19,35 @@ def get_letters_from_db():
     return vowels, consonants, v_freq, c_freq
 
 
-def generate(num_words=5, is_weighted=False, is_random=True, template=''):
+def generate(**kwargs):
     vowels, consonants, v_freq, c_freq = get_letters_from_db()
 
-    choices = ['v', 'c']
-    template = template
     words = []
+    template = kwargs['template']
+    num_words = kwargs['num']
+    is_weighted = kwargs['is_weighted']
+    is_random = kwargs['is_random']
 
     for num in range(num_words):
         if is_random:
             template = ''
+            choices = ['v', 'c']
             word_length = random.randint(2, 12)
+            is_double = False
             for l in range(0, word_length):
-                template += random.choice(choices)
+                letter_type = random.choice(choices)
+                print('letter', letter_type)
+                while is_double:
+                    print('checking double', letter_type, template[-1])
+                    if letter_type == template[-1]:
+                        letter_type = random.choice(choices)
+                    else:
+                        is_double = False
+                if len(template) > 0 and letter_type == template[-1]:
+                    print('setting double')
+                    is_double = True
+                template += letter_type
+                print('template:', template)
             
         word = ''
         for letter in range(0, len(template)):
