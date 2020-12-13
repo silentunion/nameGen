@@ -3,7 +3,7 @@ import package.gen.basic as basic
 
 def run():
     items = {'template': False,
-            'num': 1,
+            'num': 10,
             'is_weighted': True,
             'is_random': True}
     print(basic.generate(**items))

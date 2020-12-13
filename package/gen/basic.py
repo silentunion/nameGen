@@ -27,27 +27,25 @@ def generate(**kwargs):
     num_words = kwargs['num']
     is_weighted = kwargs['is_weighted']
     is_random = kwargs['is_random']
+    min_letters = kwargs['min_letters'] if 'min_letters' in kwargs else 2
+    max_letters = kwargs['max_letters'] if 'max_letters' in kwargs else 12
 
     for num in range(num_words):
         if is_random:
             template = ''
             choices = ['v', 'c']
-            word_length = random.randint(2, 12)
+            word_length = random.randint(min_letters, max_letters)
             is_double = False
             for l in range(0, word_length):
                 letter_type = random.choice(choices)
-                print('letter', letter_type)
                 while is_double:
-                    print('checking double', letter_type, template[-1])
                     if letter_type == template[-1]:
                         letter_type = random.choice(choices)
                     else:
                         is_double = False
                 if len(template) > 0 and letter_type == template[-1]:
-                    print('setting double')
                     is_double = True
                 template += letter_type
-                print('template:', template)
             
         word = ''
         for letter in range(0, len(template)):
