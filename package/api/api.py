@@ -11,36 +11,52 @@ CORS(app)
 
 
 class WordsTemplate(Resource):
-    def get(self, template, num, is_weighted=False):
+    def get(self, template, num):
+        items = {'template': template,
+                'num': num,
+                'is_weighted': False,
+                'is_random': False}
         try:
-            items = basic.generate(num, is_weighted, False, template)
+            names = basic.generate(**items)
         except:
-            items = [{'name': 'Something went wrong'}]
-        return items
+            names = [{'name': 'Something went wrong'}]
+        return names
 
 class WordsTemplateWeighted(Resource):
-    def get(self, template, num, is_weighted=True):
+    def get(self, template, num):
+        items = {'template': template,
+                'num': num,
+                'is_weighted': True,
+                'is_random': False}
         try:
-            items = basic.generate(num, is_weighted, False, template)
+            names = basic.generate(**items)
         except:
-            items = [{'name': 'Something went wrong'}]
-        return items
+            names = [{'name': 'Something went wrong'}]
+        return names
 
 class RandomWords(Resource):
-    def get(self, num, is_weighted=False):
+    def get(self, num):
+        items = {'template': False,
+                'num': num,
+                'is_weighted': False,
+                'is_random': True}
         try:
-            items = basic.generate(num, is_weighted)
+            names = basic.generate(**items)
         except:
-            items = [{'name': 'Something went wrong'}]
-        return items
+            names = [{'name': 'Something went wrong'}]
+        return names
 
 class RandomWordsWeighted(Resource):
-    def get(self, num, is_weighted=True):
+    def get(self, num):
+        items = {'template': False,
+                'num': num,
+                'is_weighted': True,
+                'is_random': True}
         try:
-            items = basic.generate(num, is_weighted)
+            names = basic.generate(**items)
         except:
-            items = [{'name': 'Something went wrong'}]
-        return items
+            names = [{'name': 'Something went wrong'}]
+        return names
 
 
 api.add_resource(WordsTemplate, '/words/false/<int:num>/<string:template>')
