@@ -59,9 +59,9 @@ class RandomWordsWeighted(Resource):
         return names
 
 
-api.add_resource(WordsTemplate, '/words/false/<int:num>/<string:template>')
-api.add_resource(WordsTemplateWeighted, '/words/true/<int:num>/<string:template>')
-api.add_resource(RandomWords, '/words/false/<int:num>')
-api.add_resource(RandomWordsWeighted, '/words/true/<int:num>')
+api.add_resource(WordsTemplate, '/words/num=<int:num>&temp=<string:template>')
+api.add_resource(WordsTemplateWeighted, '/words/num=<int:num>&temp=<string:template>&w')
+api.add_resource(RandomWords, '/words/num=<int:num>')
+api.add_resource(RandomWordsWeighted, '/words/num=<int:num>&w')
 
 app.run(port=5000)
