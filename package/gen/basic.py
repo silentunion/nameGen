@@ -22,15 +22,15 @@ def get_letters_from_db():
 def generate(**kwargs):
     vowels, consonants, v_freq, c_freq = get_letters_from_db()
 
-    words = []
+    names = []
     template = kwargs['template']
-    num_words = kwargs['num']
+    num_names = kwargs['num']
     is_weighted = kwargs['is_weighted']
     is_random = kwargs['is_random']
     min_letters = kwargs['min_letters'] if 'min_letters' in kwargs else 2
     max_letters = kwargs['max_letters'] if 'max_letters' in kwargs else 12
 
-    for num in range(num_words):
+    for num in range(num_names):
         if is_random:
             template = ''
             choices = ['v', 'c']
@@ -60,7 +60,7 @@ def generate(**kwargs):
                     word += random.choice(vowels)
                 else:
                     word += random.choice(consonants)
-        words.append({'name': word.capitalize()})
+        names.append({'name': word.capitalize()})
     
-    return words
+    return names
 
