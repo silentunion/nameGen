@@ -34,9 +34,9 @@ def generate(**kwargs):
         if is_random:
             template = ''
             choices = ['v', 'c']
-            word_length = random.randint(min_letters, max_letters)
+            name_length = random.randint(min_letters, max_letters)
             is_double = False
-            for l in range(0, word_length):
+            for l in range(0, name_length):
                 letter_type = random.choice(choices)
                 while is_double:
                     if letter_type == template[-1]:
@@ -47,20 +47,20 @@ def generate(**kwargs):
                     is_double = True
                 template += letter_type
             
-        word = ''
+        name = ''
         for letter in range(0, len(template)):
             let = template[letter]
             if is_weighted:
                 if let == 'v':
-                    word += random.choices(vowels, weights=v_freq, k=1)[0]          
+                    name += random.choices(vowels, weights=v_freq, k=1)[0]          
                 else:
-                    word += random.choices(consonants, weights=c_freq, k=1)[0]
+                    name += random.choices(consonants, weights=c_freq, k=1)[0]
             else:
                 if let == 'v':
-                    word += random.choice(vowels)
+                    name += random.choice(vowels)
                 else:
-                    word += random.choice(consonants)
-        names.append({'name': word.capitalize()})
+                    name += random.choice(consonants)
+        names.append({'name': name.capitalize()})
     
     return names
 
