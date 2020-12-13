@@ -39,7 +39,7 @@ def generate(template, num_words=5, is_weighted=False):
                     word += random.choice(vowels)
                 else:
                     word += random.choice(consonants)
-        words.append({'word': word})
+        words.append({'name': word.capitalize()})
     
     return words
 
@@ -70,6 +70,6 @@ def completely_random(num_words, is_weighted=False):
                     word += random.choice(vowels)
                 else:
                     word += random.choice(consonants)
-        words.append({'word': word})
+        words.append({'name': word.capitalize()})
     
     return words

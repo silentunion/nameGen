@@ -43,10 +43,10 @@ class Nonestuff(Resource):
         return items
 
 api.add_resource(Letters, '/letters')
-api.add_resource(WordsTemplate, '/words/<int:num>/<string:template>')
-api.add_resource(WordsTemplateWeighted, '/words/<int:num>w/<string:template>')
-api.add_resource(RandomWords, '/words/<int:num>')
-api.add_resource(RandomWordsWeighted, '/words/<int:num>w')
+api.add_resource(WordsTemplate, '/words/false/<int:num>/<string:template>')
+api.add_resource(WordsTemplateWeighted, '/words/true/<int:num>/<string:template>')
+api.add_resource(RandomWords, '/words/false/<int:num>')
+api.add_resource(RandomWordsWeighted, '/words/true/<int:num>')
 api.add_resource(Nonestuff, '/words/<int:num>/')
 
 app.run(port=5000)
