@@ -10,7 +10,7 @@ api = Api(app)
 CORS(app)
 
 
-class WordsTemplate(Resource):
+class NamesTemplate(Resource):
     def get(self, template, num):
         items = {'template': template,
                 'num': num,
@@ -22,7 +22,7 @@ class WordsTemplate(Resource):
             names = [{'name': 'Something went wrong'}]
         return names
 
-class WordsTemplateWeighted(Resource):
+class NamesTemplateWeighted(Resource):
     def get(self, template, num):
         items = {'template': template,
                 'num': num,
@@ -34,7 +34,7 @@ class WordsTemplateWeighted(Resource):
             names = [{'name': 'Something went wrong'}]
         return names
 
-class RandomWords(Resource):
+class NamesRandom(Resource):
     def get(self, num):
         items = {'template': False,
                 'num': num,
@@ -46,7 +46,7 @@ class RandomWords(Resource):
             names = [{'name': 'Something went wrong'}]
         return names
 
-class RandomWordsWeighted(Resource):
+class NamesRandomWeighted(Resource):
     def get(self, num):
         items = {'template': False,
                 'num': num,
@@ -59,9 +59,9 @@ class RandomWordsWeighted(Resource):
         return names
 
 
-api.add_resource(WordsTemplate, '/words/num=<int:num>&temp=<string:template>')
-api.add_resource(WordsTemplateWeighted, '/words/num=<int:num>&temp=<string:template>&w')
-api.add_resource(RandomWords, '/words/num=<int:num>')
-api.add_resource(RandomWordsWeighted, '/words/num=<int:num>&w')
+api.add_resource(NamesTemplate, '/basic/num=<int:num>&temp=<string:template>')
+api.add_resource(NamesTemplateWeighted, '/basic/num=<int:num>&temp=<string:template>&w')
+api.add_resource(NamesRandom, '/basic/num=<int:num>')
+api.add_resource(NamesRandomWeighted, '/basic/num=<int:num>&w')
 
 app.run(port=5000)
