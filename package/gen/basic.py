@@ -2,18 +2,17 @@ import random
 
 from ..api import db_request
 
-
 def get_letters_from_db():
     letters = db_request.get_letters()
 
     vowels, consonants, v_freq, c_freq = [], [], [], []
 
     for row in letters:
-        if row['is_vowel']:
-            vowels.append(row['letter'])
+        if row['property'] == 'vowel':
+            vowels.append(row['part'])
             v_freq.append(float(row['frequency']))
         else:
-            consonants.append(row['letter'])
+            consonants.append(row['part'])
             c_freq.append(float(row['frequency']))
 
     return vowels, consonants, v_freq, c_freq
