@@ -6,7 +6,7 @@ def run():
             'num': 10,
             'is_weighted': True,
             'is_random': False}
-    print(basic.generate_from_template(**items))
+    print(basic.generate_random(**items))
 
 if __name__ == "__main__":
     run()
