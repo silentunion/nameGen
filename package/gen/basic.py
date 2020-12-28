@@ -29,6 +29,16 @@ def generate(**kwargs):
     min_letters = kwargs['min_letters'] if 'min_letters' in kwargs else 2
     max_letters = kwargs['max_letters'] if 'max_letters' in kwargs else 12
 
+    print
+
+    literal = ''
+    if len(template) > 0 and ('(' or ')') in template:
+        start = '('
+        end = ')'
+        literal = template[template.find(start) + len(start):template.rfind(end)]
+
+    print('literal: ' , literal)
+
     for num in range(num_names):
         if is_random:
             template = ''
@@ -63,3 +73,38 @@ def generate(**kwargs):
     
     return names
 
+def generate_from_template(**kwargs):
+    vowels, consonants, v_freq, c_freq = get_letters_from_db()
+
+    template = kwargs['template']
+    num_names = kwargs['num']
+    is_weighted = kwargs['is_weighted']
+    is_random = kwargs['is_random']
+    min_letters = kwargs['min_letters'] if 'min_letters' in kwargs else 2
+    max_letters = kwargs['max_letters'] if 'max_letters' in kwargs else 12
+
+    names = []
+
+    for num in range(num_names):
+        name = ''
+        for letter in range(0, len(template)):
+            let = template[letter]
+            if let == 'v':
+                name += letter_vowel(vowels, v_freq, is_weighted)
+            else:
+                name += letter_consonant(consonants, c_freq, is_weighted)
+        names.append({'name': name.capitalize()})
+
+    return names
+
+def letter_vowel(vowels, v_freq, is_weighted):
+    if is_weighted:
+        return random.choices(vowels, weights=v_freq, k=1)[0]
+    else:
+        return random.choice(vowels)
+
+def letter_consonant(consonants, c_freq, is_weighted):
+    if is_weighted:
+        return random.choices(consonants, weights=c_freq, k=1)[0]
+    else:
+        return random.choice(consonants)
