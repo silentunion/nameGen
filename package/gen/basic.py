@@ -83,12 +83,12 @@ def choose_literal(literal):
     return random.choice(choices)
 
 def choose_letter(choice, is_weighted=False):
-    if choice == 'v':
+    if choice == 'l':
+        return letter()
+    elif choice == 'v':
         return letter_vowel(is_weighted)
     elif choice == 'c':
         return letter_consonant(is_weighted)
-    elif choice == 'l':
-        return letter()
     elif choice == 'V':
         return cluster_vowel()
     elif choice == ' ' or choice == '-' or choice == '\'':
