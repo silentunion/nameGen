@@ -39,7 +39,7 @@ def generate_random(**kwargs):
             if len(name) > 0 and choice == prev_choice:
                 is_double = True
 
-            name += letter_chooser(choice, is_weighted)
+            name += choose_letter(choice, is_weighted)
         
         names.append({'name': name.capitalize()})
     
@@ -65,34 +65,36 @@ def generate_from_template(**kwargs):
             if is_literal:
                 if choice == ')':
                     is_literal = False
-                    name += check_literal(literal)
+                    name += choose_literal(literal)
                 else:
                     literal += choice
             elif choice == '(':
                 literal = ''
                 is_literal = True
             else:
-                name += letter_chooser(choice, is_weighted)
+                name += choose_letter(choice, is_weighted)
 
         names.append({'name': name.capitalize()})
 
     return names
 
-def check_literal(literal):
+def choose_literal(literal):
     choices = literal.split('|')
     return random.choice(choices)
 
-def letter_chooser(choice, is_weighted=False):
+def choose_letter(choice, is_weighted=False):
     if choice == 'v':
         return letter_vowel(is_weighted)
     elif choice == 'c':
         return letter_consonant(is_weighted)
+    elif choice == 'l':
+        return letter()
     elif choice == 'V':
         return cluster_vowel()
-    elif choice == ' ' or '-' or '\'':
+    elif choice == ' ' or choice == '-' or choice == '\'':
         return choice
     else:
-        return letter()
+        return ''
 
 def letter():
     return random.choice(vowels + consonants)
