@@ -17,7 +17,7 @@ class NamesTemplate(Resource):
                 'is_weighted': False,
                 'is_random': False}
         try:
-            names = basic.generate(**items)
+            names = basic.generate_from_template(**items)
         except:
             names = [{'name': 'Something went wrong'}]
         return names
@@ -29,7 +29,7 @@ class NamesTemplateWeighted(Resource):
                 'is_weighted': True,
                 'is_random': False}
         try:
-            names = basic.generate(**items)
+            names = basic.generate_from_template(**items)
         except:
             names = [{'name': 'Something went wrong'}]
         return names
@@ -41,7 +41,7 @@ class NamesRandom(Resource):
                 'is_weighted': False,
                 'is_random': True}
         try:
-            names = basic.generate(**items)
+            names = basic.generate_random(**items)
         except:
             names = [{'name': 'Something went wrong'}]
         return names
@@ -53,7 +53,7 @@ class NamesRandomWeighted(Resource):
                 'is_weighted': True,
                 'is_random': True}
         try:
-            names = basic.generate(**items)
+            names = basic.generate_random(**items)
         except:
             names = [{'name': 'Something went wrong'}]
         return names
