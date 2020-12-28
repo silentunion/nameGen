@@ -1,38 +1,14 @@
 import random
 
 from ..api import db_request
+from ..api import startup_requests as sr
 
-def get_letters_from_db():
-    letters = db_request.get_letters()
+sr.get_clusters_from_db
 
-    vowels, consonants, v_freq, c_freq = [], [], [], []
-
-    for row in letters:
-        if row['property'] == 'vowel':
-            vowels.append(row['part'])
-            v_freq.append(float(row['frequency']))
-        else:
-            consonants.append(row['part'])
-            c_freq.append(float(row['frequency']))
-
-    return vowels, consonants, v_freq, c_freq
-
-def get_clusters_from_db():
-    clusters = db_request.get_clusters()
-    cl_vowels, cl_consonants = [], []
-
-    for row in clusters:
-        if row['property'] == 'vowel':
-            cl_vowels.append(row['part'])
-        else:
-            cl_consonants.append(row['part'])
-
-    return cl_vowels, cl_consonants
+vowels, consonants, v_freq, c_freq = sr.get_letters_from_db()
+cl_vowels, cl_consonants = sr.get_clusters_from_db()
 
 def generate(**kwargs):
-    vowels, consonants, v_freq, c_freq = get_letters_from_db()
-    cl_vowels, cl_consonants = get_clusters_from_db()
-
     names = []
     template = kwargs['template']
     num_names = kwargs['num']
@@ -85,9 +61,7 @@ def generate(**kwargs):
     
     return names
 
-def generate_random(**kwargs):
-    vowels, consonants, v_freq, c_freq = get_letters_from_db()
-    
+def generate_random(**kwargs):    
     num_names = kwargs['num']
     is_weighted = kwargs['is_weighted']
     is_random = kwargs['is_random']
@@ -118,11 +92,11 @@ def generate_random(**kwargs):
                 is_double = True
 
             if choice == 'v':
-                name += letter_vowel(vowels, v_freq, is_weighted)
+                name += letter_vowel(is_weighted)
             elif choice == 'c':
-                name += letter_consonant(consonants, c_freq, is_weighted)
+                name += letter_consonant(is_weighted)
             else:
-                name += letter(vowels, consonants)
+                name += letter()
         
         names.append({'name': name.capitalize()})
     
@@ -130,9 +104,6 @@ def generate_random(**kwargs):
 
 
 def generate_from_template(**kwargs):
-    vowels, consonants, v_freq, c_freq = get_letters_from_db()
-    cl_vowels, cl_consonants = get_clusters_from_db()
-
     template = kwargs['template']
     num_names = kwargs['num']
     is_weighted = kwargs['is_weighted']
@@ -147,31 +118,31 @@ def generate_from_template(**kwargs):
         for letter in range(0, len(template)):
             let = template[letter]
             if let == 'v':
-                name += letter_vowel(vowels, v_freq, is_weighted)
+                name += letter_vowel(is_weighted)
             elif let == 'c':
-                name += letter_consonant(consonants, c_freq, is_weighted)
+                name += letter_consonant(is_weighted)
             elif let == 'V':
-                name += cluster_vowel(cl_vowels)
+                name += cluster_vowel()
             else:
-                name += letter(vowels, consonants)
+                name += letter()
         names.append({'name': name.capitalize()})
 
     return names
 
-def letter(vowels, consonants):
+def letter():
     return random.choice(vowels + consonants)
 
-def letter_vowel(vowels, v_freq, is_weighted):
+def letter_vowel(is_weighted):
     if is_weighted:
         return random.choices(vowels, weights=v_freq, k=1)[0]
     else:
         return random.choice(vowels)
 
-def letter_consonant(consonants, c_freq, is_weighted):
+def letter_consonant(is_weighted):
     if is_weighted:
         return random.choices(consonants, weights=c_freq, k=1)[0]
     else:
         return random.choice(consonants)
 
-def cluster_vowel(cl_vowels):
+def cluster_vowel():
     return random.choice(cl_vowels)
