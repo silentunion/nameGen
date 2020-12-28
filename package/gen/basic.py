@@ -61,17 +61,18 @@ def generate_from_template(**kwargs):
         literal = ''
         for letter in range(0, len(template)):
             choice = template[letter]
-            if choice != '(':
-                if is_literal:
-                    if choice == ')':
-                        is_literal = False
-                        name += check_literal(literal)
-                    else:
-                        literal += choice
+
+            if is_literal:
+                if choice == ')':
+                    is_literal = False
+                    name += check_literal(literal)
                 else:
-                    name += letter_chooser(choice, is_weighted)
-            else:
+                    literal += choice
+            elif choice == '(':
+                literal = ''
                 is_literal = True
+            else:
+                name += letter_chooser(choice, is_weighted)
 
         names.append({'name': name.capitalize()})
 
