@@ -2,11 +2,11 @@
 import package.gen.basic as basic
 
 def run():
-    items = {'template': False,
+    items = {'template': 'cVccvcV',
             'num': 10,
             'is_weighted': True,
-            'is_random': True}
-    print(basic.generate(**items))
+            'is_random': False}
+    print(basic.generate_random(**items))
 
 if __name__ == "__main__":
     run()

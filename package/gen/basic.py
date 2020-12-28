@@ -1,27 +1,51 @@
 import random
 
 from ..api import db_request
+from ..api import startup_requests as sr
 
-def get_letters_from_db():
-    letters = db_request.get_letters()
+sr.get_clusters_from_db
 
-    vowels, consonants, v_freq, c_freq = [], [], [], []
-
-    for row in letters:
-        if row['property'] == 'vowel':
-            vowels.append(row['part'])
-            v_freq.append(float(row['frequency']))
-        else:
-            consonants.append(row['part'])
-            c_freq.append(float(row['frequency']))
-
-    return vowels, consonants, v_freq, c_freq
+vowels, consonants, v_freq, c_freq = sr.get_letters_from_db()
+cl_vowels, cl_consonants = sr.get_clusters_from_db()
 
 
-def generate(**kwargs):
-    vowels, consonants, v_freq, c_freq = get_letters_from_db()
+def generate_random(**kwargs):    
+    num_names = kwargs['num']
+    is_weighted = kwargs['is_weighted']
+    is_random = kwargs['is_random']
+    min_letters = kwargs['min_letters'] if 'min_letters' in kwargs else 2
+    max_letters = kwargs['max_letters'] if 'max_letters' in kwargs else 12
 
     names = []
+
+    for num in range(num_names):
+        name = ''
+
+        name_length = random.randint(min_letters, max_letters)
+        is_double = False
+        choices = ['v', 'c']
+        choice = ''
+        
+        for letter in range(0, name_length):
+            prev_choice = choice
+            choice = random.choice(choices)
+
+            while is_double:
+                if choice == prev_choice:
+                    choice = random.choice(choices)
+                else:
+                    is_double = False
+
+            if len(name) > 0 and choice == prev_choice:
+                is_double = True
+
+            name += letter_chooser(choice, is_weighted)
+        
+        names.append({'name': name.capitalize()})
+    
+    return names
+
+def generate_from_template(**kwargs):
     template = kwargs['template']
     num_names = kwargs['num']
     is_weighted = kwargs['is_weighted']
@@ -29,37 +53,41 @@ def generate(**kwargs):
     min_letters = kwargs['min_letters'] if 'min_letters' in kwargs else 2
     max_letters = kwargs['max_letters'] if 'max_letters' in kwargs else 12
 
+    names = []
+
     for num in range(num_names):
-        if is_random:
-            template = ''
-            choices = ['v', 'c']
-            name_length = random.randint(min_letters, max_letters)
-            is_double = False
-            for l in range(0, name_length):
-                letter_type = random.choice(choices)
-                while is_double:
-                    if letter_type == template[-1]:
-                        letter_type = random.choice(choices)
-                    else:
-                        is_double = False
-                if len(template) > 0 and letter_type == template[-1]:
-                    is_double = True
-                template += letter_type
-            
         name = ''
         for letter in range(0, len(template)):
-            let = template[letter]
-            if is_weighted:
-                if let == 'v':
-                    name += random.choices(vowels, weights=v_freq, k=1)[0]          
-                else:
-                    name += random.choices(consonants, weights=c_freq, k=1)[0]
-            else:
-                if let == 'v':
-                    name += random.choice(vowels)
-                else:
-                    name += random.choice(consonants)
+            choice = template[letter]
+            name += letter_chooser(choice, is_weighted)
         names.append({'name': name.capitalize()})
-    
+
     return names
 
+def letter_chooser(choice, is_weighted=False):
+    if choice == 'v':
+        return letter_vowel(is_weighted)
+    elif choice == 'c':
+        return letter_consonant(is_weighted)
+    elif choice == 'V':
+        return cluster_vowel()
+    else:
+        return letter()
+
+def letter():
+    return random.choice(vowels + consonants)
+
+def letter_vowel(is_weighted):
+    if is_weighted:
+        return random.choices(vowels, weights=v_freq, k=1)[0]
+    else:
+        return random.choice(vowels)
+
+def letter_consonant(is_weighted):
+    if is_weighted:
+        return random.choices(consonants, weights=c_freq, k=1)[0]
+    else:
+        return random.choice(consonants)
+
+def cluster_vowel():
+    return random.choice(cl_vowels)
