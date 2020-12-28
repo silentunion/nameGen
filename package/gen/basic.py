@@ -54,12 +54,23 @@ def generate_from_template(**kwargs):
     max_letters = kwargs['max_letters'] if 'max_letters' in kwargs else 12
 
     names = []
+    is_literal = False
 
     for num in range(num_names):
         name = ''
         for letter in range(0, len(template)):
             choice = template[letter]
-            name += letter_chooser(choice, is_weighted)
+            if choice != '(':
+                if is_literal:
+                    if choice == ')':
+                        is_literal = False
+                    else:
+                        name += choice
+                else:
+                    name += letter_chooser(choice, is_weighted)
+            else:
+                is_literal = True
+
         names.append({'name': name.capitalize()})
 
     return names
