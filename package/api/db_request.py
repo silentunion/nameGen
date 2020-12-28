@@ -6,3 +6,4 @@ def get_letters():
 
 def get_clusters():
     response = requests.get("http://localhost:8666/clusters")
+    return response.json()

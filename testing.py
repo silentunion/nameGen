@@ -2,7 +2,7 @@
 import package.gen.basic as basic
 
 def run():
-    items = {'template': 'cvccvcv',
+    items = {'template': 'cVccvcV',
             'num': 10,
             'is_weighted': True,
             'is_random': False}
