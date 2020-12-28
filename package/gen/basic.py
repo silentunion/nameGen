@@ -88,6 +88,8 @@ def letter_chooser(choice, is_weighted=False):
         return letter_consonant(is_weighted)
     elif choice == 'V':
         return cluster_vowel()
+    elif choice == ' ' or '-' or '\'':
+        return choice
     else:
         return letter()
 
