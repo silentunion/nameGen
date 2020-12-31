@@ -5,8 +5,8 @@ from ..api import startup_requests as sr
 
 sr.get_clusters_from_db
 
-vowels, consonants, v_freq, c_freq = sr.get_letters_from_db()
-cl_vowels, cl_consonants = sr.get_clusters_from_db()
+letters = sr.get_letters_from_db()
+clusters = sr.get_clusters_from_db()
 
 
 def generate_random(**kwargs):    
@@ -86,32 +86,44 @@ def choose_literal(literal):
 
 def choose_letter(choice, is_weighted=False):
     if choice == 'l':
-        return letter()
+        return get_letter('l', 'lf', is_weighted)
     elif choice == 'v':
-        return letter_vowel(is_weighted)
+        return get_letter('v', 'vf', is_weighted)
     elif choice == 'c':
-        return letter_consonant(is_weighted)
+        return get_letter('c', 'cf', is_weighted)
+
     elif choice == 'V':
-        return cluster_vowel()
+        return get_cluster('v', 'vf', is_weighted)
+    elif choice == 'C':
+        return get_cluster('cl', 'clf', is_weighted)
+
+    elif choice == 'b':
+        return get_cluster('vb', 'vbf', is_weighted)    
+    elif choice == 'm':
+        return get_cluster('vm', 'vmf', is_weighted)
+    elif choice == 'e':
+        return get_cluster('ve', 'vef', is_weighted)
+
+    elif choice == 'B':
+        return get_cluster('cb', 'cbf', is_weighted)    
+    elif choice == 'M':
+        return get_cluster('cm', 'cmf', is_weighted)
+    elif choice == 'E':
+        return get_cluster('ce', 'cef', is_weighted)
+
     elif choice == ' ' or choice == '-' or choice == '\'':
         return choice
     else:
         return ''
 
-def letter():
-    return random.choice(vowels + consonants)
-
-def letter_vowel(is_weighted):
+def get_letter(l, freq, is_weighted):
     if is_weighted:
-        return random.choices(vowels, weights=v_freq, k=1)[0]
+        return random.choices(letters[l], weights=letters[freq], k=1)[0]
     else:
-        return random.choice(vowels)
+        return random.choice(letters[l])
 
-def letter_consonant(is_weighted):
+def get_cluster(c, freq, is_weighted):
     if is_weighted:
-        return random.choices(consonants, weights=c_freq, k=1)[0]
+        return random.choices(clusters[c], weights=clusters[freq], k=1)[0]
     else:
-        return random.choice(consonants)
-
-def cluster_vowel():
-    return random.choice(cl_vowels)
+        return random.choice(clusters[c])
