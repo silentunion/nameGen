@@ -82,6 +82,8 @@ def choose_literal(literal):
     choices = literal.split('|')
     return random.choice(choices)
 
+
+
 def choose_letter(choice, is_weighted=False):
     if choice == 'l':
         return letter()

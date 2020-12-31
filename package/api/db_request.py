@@ -5,5 +5,5 @@ def get_letters():
     return response.json()
 
 def get_clusters():
-    response = requests.get("http://localhost:8666/clusters")
+    response = requests.get("http://localhost:8666/clusters/freq")
     return response.json()
