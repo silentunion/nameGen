@@ -86,30 +86,46 @@ def choose_literal(literal):
 
 def choose_letter(choice, is_weighted=False):
     if choice == 'l':
-        return get_letter('l', 'lf', is_weighted)
+        return get_letter('l', 'lf', is_weighted) # letter
     elif choice == 'v':
-        return get_letter('v', 'vf', is_weighted)
+        return get_letter('v', 'vf', is_weighted) # vowel
     elif choice == 'c':
-        return get_letter('c', 'cf', is_weighted)
+        return get_letter('c', 'cf', is_weighted) # consonant
 
+    elif choice == 'x':
+        return get_letter('v', 'vbf', is_weighted) # beginning vowel
+    elif choice == 'y':
+        return get_letter('vm', 'vmf', is_weighted) # middle vowel
+    elif choice == 'z':
+        return get_letter('ve', 'vef', is_weighted) # end vowel
+
+    elif choice == 'X':
+        return get_letter('cb', 'cbf', is_weighted) # begin consonant
+    elif choice == 'Y':
+        return get_letter('cm', 'cmf', is_weighted) # middle consonant
+    elif choice == 'Z':
+        return get_letter('ce', 'cef', is_weighted) # end consonant
+
+    elif choice == 'L':
+        return get_cluster('cl', 'clf', is_weighted) # cluster
     elif choice == 'V':
-        return get_cluster('v', 'vf', is_weighted)
+        return get_cluster('v', 'vf', is_weighted) # vowel cluster
     elif choice == 'C':
-        return get_cluster('cl', 'clf', is_weighted)
+        return get_cluster('c', 'cf', is_weighted) # consonant cluster
 
     elif choice == 'b':
-        return get_cluster('vb', 'vbf', is_weighted)    
+        return get_cluster('vb', 'vbf', is_weighted) # beginning vowel cluster
     elif choice == 'm':
-        return get_cluster('vm', 'vmf', is_weighted)
+        return get_cluster('vm', 'vmf', is_weighted) # middle vowel cluster
     elif choice == 'e':
-        return get_cluster('ve', 'vef', is_weighted)
+        return get_cluster('ve', 'vef', is_weighted) # end vowel cluster
 
     elif choice == 'B':
-        return get_cluster('cb', 'cbf', is_weighted)    
+        return get_cluster('cb', 'cbf', is_weighted) # begin consonant cluster
     elif choice == 'M':
-        return get_cluster('cm', 'cmf', is_weighted)
+        return get_cluster('cm', 'cmf', is_weighted) # middle consonant cluster
     elif choice == 'E':
-        return get_cluster('ce', 'cef', is_weighted)
+        return get_cluster('ce', 'cef', is_weighted) # end consonant cluster
 
     elif choice == ' ' or choice == '-' or choice == '\'':
         return choice
